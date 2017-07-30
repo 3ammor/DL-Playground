@@ -4,6 +4,8 @@ class multilayer_perceptron_config:
     training_epochs = 15
     batch_size = 100
     display_step = 1
+    max_to_keep = 1
+    scalar_summary_tags = ['loss']
 
     # Network Parameters
     n_hidden_1 = 256  # 1st layer number of features
