@@ -1,5 +1,4 @@
 import tensorflow as tf
-from layers import *
 
 
 class MultilayerPerceptron:
@@ -12,7 +11,7 @@ class MultilayerPerceptron:
         self.build_model()
 
     def build_model(self):
-        with tf.name_scope('hidden_layer_1'):
+        with tf.name_scope('input_layer'):
             h1 = tf.layers.dense(
                 self.X,
                 self.config.n_hidden_1,
@@ -21,7 +20,7 @@ class MultilayerPerceptron:
                 name='dense'
             )
 
-        with tf.name_scope('hidden_layer_2'):
+        with tf.name_scope('hidden_layer'):
             h2 = tf.layers.dense(
                 h1,
                 self.config.n_hidden_2,
