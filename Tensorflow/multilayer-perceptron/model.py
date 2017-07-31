@@ -11,7 +11,7 @@ class MultilayerPerceptron:
         self.build_model()
 
     def build_model(self):
-        with tf.name_scope('input_layer'):
+        with tf.variable_scope('input_layer'):
             h1 = tf.layers.dense(
                 self.X,
                 self.config.n_hidden_1,
@@ -20,7 +20,7 @@ class MultilayerPerceptron:
                 name='dense'
             )
 
-        with tf.name_scope('hidden_layer'):
+        with tf.variable_scope('hidden_layer'):
             h2 = tf.layers.dense(
                 h1,
                 self.config.n_hidden_2,
@@ -29,7 +29,7 @@ class MultilayerPerceptron:
                 name='dense'
             )
 
-        with tf.name_scope('output_layer'):
+        with tf.variable_scope('output_layer'):
             self.output = tf.layers.dense(
                 h2,
                 self.config.n_classes,
@@ -46,4 +46,3 @@ class MultilayerPerceptron:
             correct_prediction = tf.equal(tf.argmax(self.output, 1), tf.argmax(self.y, 1))
             # Calculate accuracy
             self.accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
-
