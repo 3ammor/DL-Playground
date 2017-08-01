@@ -13,7 +13,7 @@ class ConvolutionalNeuralNetwork:
 
     def build_model(self):
         with tf.variable_scope('input_layer'):
-            X = tf.reshape(self.X, shape=[-1, 28, 28, 1])
+            X = tf.reshape(self.X, shape=self.config.input_shape)
             conv1 = tf.layers.conv2d(
                 X,
                 16,
