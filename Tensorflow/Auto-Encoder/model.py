@@ -39,15 +39,21 @@ class AutoEncoder:
             drp2 = tf.layers.dropout(pool1, rate=self.config.dropout_rate, training=self.is_training, name='dropout')
 
         with tf.variable_scope('deconv_layer'):
-            deconv = tf.nn.conv2d_transpose(drp2, [3, 3, 1, 1],
-                                            [-1, 14, 14, 1], [1, 2, 2, 1], padding='SAME', name='deconv')
+            deconv = tf.layers.conv2d_transpose(drp2, 32, 3, 2,
+                                                padding='SAME',
+                                                activation=tf.nn.relu,
+                                                kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                                                name='deconv')
             drp3 = tf.layers.dropout(deconv, rate=self.config.dropout_rate, training=self.is_training, name='dropout')
 
         with tf.variable_scope('output_layer'):
-            self.output = tf.nn.conv2d_transpose(drp3, [3, 3, 1, 1],
-                                                 [-1, 28, 28, 1], [1, 2, 2, 1], padding='SAME', name='deconv')
+            self.output = tf.layers.conv2d_transpose(drp3, 1, 3, 2,
+                                                     padding='SAME',
+                                                     activation=tf.nn.relu,
+                                                     kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                                                     name='deconv')
 
         with tf.name_scope('loss'):
-            self.loss = tf.losses.mean_squared_error(self.X, self.output)
+            self.loss = tf.losses.mean_squared_error(X, self.output)
 
             self.optimizer = tf.train.AdamOptimizer(learning_rate=self.config.learning_rate).minimize(self.loss)

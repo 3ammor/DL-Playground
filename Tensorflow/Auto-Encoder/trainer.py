@@ -22,7 +22,7 @@ class AutoEncoderTrainer(BaseTrainer):
             for i in range(total_batch):
                 batch_x, _ = self.mnist.train.next_batch(self.model.config.batch_size)
                 # Run optimization op (backprop) and cost op (to get loss value)
-                _, c, accuracy = self.sess.run([self.model.optimizer, self.model.loss, self.model.accuracy],
+                _, c = self.sess.run([self.model.optimizer, self.model.loss],
                                                feed_dict={self.model.X: batch_x,
                                                           self.model.is_training: True})
                 # Compute average loss
@@ -32,7 +32,7 @@ class AutoEncoderTrainer(BaseTrainer):
             tf.logging.log_every_n(
                 tf.logging.INFO,
                 'Epoch: {:04d},\t\t\t'.format(self.cur_epoch_tensor.eval(self.sess)) + 'cost= {:.9f}\t\t\t'.format(
-                    avg_cost) + 'train accuracy= {:.5f}'.format(accuracy),
+                    avg_cost),
                 self.model.config.display_step
             )
 
@@ -47,7 +47,7 @@ class AutoEncoderTrainer(BaseTrainer):
         tf.logging.info('Finished training')
 
     def test(self):
-        tf.logging.info("Test Accuracy: {:.5f}".format(self.model.accuracy.eval(session=self.sess,
+        tf.logging.info("Test Loss: {:.5f}".format(self.model.loss.eval(session=self.sess,
                                                                                 feed_dict={
                                                                                     self.model.X: self.mnist.test.images,
                                                                                     self.model.is_training: False})))

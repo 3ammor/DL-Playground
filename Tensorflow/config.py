@@ -48,6 +48,7 @@ class recurrent_neural_network_config:
     n_hidden = 128  # hidden layer num of features
     n_classes = 10  # MNIST total classes (0-9 digits)
 
+
 class auto_encoder_config:
     # Parameters
     learning_rate = 0.001
